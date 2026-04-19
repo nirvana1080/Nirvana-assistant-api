@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nirvana Enterprises — Book a Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+```
+:root {
+  --ink: #0f0e17;
+  --brand: #4F46E5;
+  --brand-light: #eef2ff;
+  --accent: #f97316;
+  --surface: #ffffff;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --radius: 14px;
+  --gutter: clamp(16px, 5vw, 40px);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f8f7ff;
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.logo {
+  font-family: 'Sora', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--brand);
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--accent); }
+nav a {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 14px;
+  margin-left: 24px;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--brand); }
+
+/* ── HERO STRIP ── */
+.hero-strip {
+  background: linear-gradient(135deg, var(--brand) 0%, #7c3aed 100%);
+  padding: 48px var(--gutter) 52px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-strip h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(26px, 5vw, 42px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+.hero-strip p {
+  color: rgba(255,255,255,0.8);
+  font-size: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.badge-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+}
+
+/* ── LAYOUT ── */
+.page-body {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px var(--gutter) 80px;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 32px;
+  align-items: start;
+}
+@media (max-width: 700px) {
+  .page-body { grid-template-columns: 1fr; }
+  .sidebar { order: -1; }
+}
+
+/* ── FORM CARD ── */
+.form-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: clamp(24px, 5vw, 40px);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(79,70,229,0.06);
+}
+.form-card h2 {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.form-card .subtitle {
+  color: var(--muted);
+  font-size: 13.5px;
+  margin-bottom: 28px;
+}
+
+/* Progress bar */
+.progress-wrap { margin-bottom: 28px; }
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.progress-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--brand), #7c3aed);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* Form groups */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-group.full { grid-column: 1 / -1; }
+
+label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+label .req { color: #ef4444; }
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+textarea,
+select {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  color: var(--ink);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
+}
+input.error, textarea.error, select.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
+}
+textarea { resize: vertical; min-height: 90px; }
+
+/* Error messages */
+.error-msg {
+  font-size: 12px;
+  color: #ef4444;
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+.error-msg.visible { display: flex; }
+
+/* Submit */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--brand), #7c3aed);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: 'Sora', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(79,70,229,0.35);
+  letter-spacing: 0.2px;
+}
+.submit-btn:hover {
+  opacity: 0.92;
+  box-shadow: 0 6px 28px rgba(79,70,229,0.45);
+}
+.submit-btn:active { transform: scale(0.98); }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Success state */
+.success-box {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+}
+.success-box .checkmark {
+  font-size: 56px;
+  margin-bottom: 16px;
+  animation: pop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes pop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.success-box h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.success-box p { color: var(--muted); font-size: 14px; }
+
+/* ── SIDEBAR ── */
+.sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+.info-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 22px;
+  border: 1px solid var(--border);
+}
+.info-card h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: var(--ink);
+}
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: #374151;
+}
+.feature-list li .icon {
+  width: 28px; height: 28px;
+  background: var(--brand-light);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.testimonial-card {
+  background: linear-gradient(135deg, var(--brand), #7c3aed);
+  color: #fff;
+  border-radius: 16px;
+  padding: 22px;
+}
+.testimonial-card blockquote {
+  font-size: 13.5px;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 14px;
+}
+.testimonial-card cite {
+  font-size: 12px;
+  opacity: 0.75;
+  font-style: normal;
+}
+
+.trust-strip {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid var(--border);
+}
+.trust-item .num {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--brand);
+}
+.trust-item .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── AI Demo Banner ── */
+.ai-banner {
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 12.5px;
+  color: #92400e;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.ai-banner .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+```
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Nirvana<span>.</span>ai</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<div class="hero-strip">
+  <h1>Book Your Service</h1>
+  <p>Fast, reliable IT & local services. Fill the form and we'll call you back within 2 hours.</p>
+  <div class="badge-row">
+    <span class="badge">⚡ 2-Hour Response</span>
+    <span class="badge">✅ GST Billing</span>
+    <span class="badge">🔒 Secure Booking</span>
+  </div>
+</div>
+
+<div class="page-body">
+  <!-- MAIN FORM -->
+  <div class="form-card">
+    <h2>Service Booking Form</h2>
+    <p class="subtitle">All fields marked with <span style="color:#ef4444">*</span> are required.</p>
+
+```
+<div class="ai-banner">
+  <span class="icon">🤖</span>
+  <span><strong>Nirvana Assistant is active!</strong> Get stuck? The stickman in the bottom-right corner will help you fill this form. Click it anytime!</span>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Form Progress</span>
+    <span id="progress-pct">0% complete</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<form id="booking-form" novalidate>
+  <div class="form-grid">
+
+    <div class="form-group">
+      <label for="fullName">👤 Full Name <span class="req">*</span></label>
+      <input type="text" id="fullName" name="fullName" placeholder="Rahul Sharma" autocomplete="name" required/>
+      <span class="error-msg" id="fullName-err">⚠️ Please enter your full name.</span>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">📱 Phone Number <span class="req">*</span></label>
+      <input type="tel" id="phone" name="phone" placeholder="9876543210" autocomplete="tel" required
+             pattern="[6-9][0-9]{9}" maxlength="10"/>
+      <span class="error-msg" id="phone-err">⚠️ Enter valid 10-digit mobile number.</span>
+    </div>
+
+    <div class="form-group">
+      <label for="email">📧 Email Address</label>
+      <input type="email" id="email" name="email" placeholder="rahul@gmail.com" autocomplete="email"/>
+      <span class="error-msg" id="email-err">⚠️ Enter a valid email address.</span>
+    </div>
+
+    <div class="form-group">
+      <label for="serviceDate">📅 Preferred Date</label>
+      <input type="date" id="serviceDate" name="serviceDate"/>
+      <span class="error-msg" id="serviceDate-err">⚠️ Select a future date.</span>
+    </div>
+
+    <div class="form-group full">
+      <label for="service">🔧 Service Required <span class="req">*</span></label>
+      <select id="service" name="service" required>
+        <option value="">-- Select a Service --</option>
+        <optgroup label="IT Services">
+          <option value="wifi_setup">WiFi Setup & Configuration</option>
+          <option value="laptop_repair">Laptop / Desktop Repair</option>
+          <option value="data_recovery">Data Recovery</option>
+          <option value="antivirus">Virus Removal & Security</option>
+          <option value="cctv">CCTV Installation</option>
+        </optgroup>
+        <optgroup label="GST & Accounting">
+          <option value="gst_reg">GST Registration</option>
+          <option value="gst_filing">GST Return Filing</option>
+          <option value="itr">Income Tax Return</option>
+          <option value="accounting">Bookkeeping & Accounting</option>
+        </optgroup>
+        <optgroup label="Local Services">
+          <option value="plumber">Plumber</option>
+          <option value="electrician">Electrician</option>
+          <option value="carpenter">Carpenter</option>
+          <option value="ac_service">AC Service & Repair</option>
+        </optgroup>
+      </select>
+      <span class="error-msg" id="service-err">⚠️ Please select a service.</span>
+    </div>
+
+    <div class="form-group full">
+      <label for="address">🏠 Address / Location <span class="req">*</span></label>
+      <textarea id="address" name="address" placeholder="House No., Street, Area, City, Pincode" required rows="3"></textarea>
+      <span class="error-msg" id="address-err">⚠️ Please enter your address.</span>
+    </div>
+
+    <div class="form-group full">
+      <label for="notes">📝 Additional Notes</label>
+      <textarea id="notes" name="notes" placeholder="Describe your problem or any special requirements..." rows="2"></textarea>
+    </div>
+
+  </div><!-- /form-grid -->
+
+  <button type="submit" class="submit-btn" id="submit-btn">
+    🚀 Book My Service — Free Consultation
+  </button>
+</form>
+
+<!-- Success state -->
+<div class="success-box" id="success-box">
+  <div class="checkmark">✅</div>
+  <h3>Booking Confirmed!</h3>
+  <p>Humari team 2 ghante mein aapko call karegi.<br/>Thank you for choosing Nirvana Enterprises!</p>
+</div>
+```
+
+  </div><!-- /form-card -->
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+    <div class="trust-strip">
+      <div class="trust-item"><div class="num">2K+</div><div class="lbl">Customers</div></div>
+      <div class="trust-item"><div class="num">4.9★</div><div class="lbl">Rating</div></div>
+      <div class="trust-item"><div class="num">5yr</div><div class="lbl">Experience</div></div>
+    </div>
+
+```
+<div class="info-card">
+  <h3>Why Choose Us?</h3>
+  <ul class="feature-list">
+    <li><span class="icon">⚡</span><span><strong>Fast Response</strong> — 2-hour callback guarantee on all bookings.</span></li>
+    <li><span class="icon">🔒</span><span><strong>Verified Experts</strong> — Background-checked technicians only.</span></li>
+    <li><span class="icon">🧾</span><span><strong>GST Invoice</strong> — Proper tax receipts for all services.</span></li>
+    <li><span class="icon">💬</span><span><strong>Hinglish Support</strong> — Talk to us in Hindi, English, or mix!</span></li>
+  </ul>
+</div>
+
+<div class="testimonial-card">
+  <blockquote>"Nirvana ka stickman assistant ne mujhe poora form bharne mein help kiya. Bilkul easy tha! Service bhi amazing thi."</blockquote>
+  <cite>— Priya Mehta, Pune Customer ⭐⭐⭐⭐⭐</cite>
+</div>
+```
+
+  </aside>
+</div><!-- /page-body -->
+
+<!-- ═══════════════════════════════════════════════
+     NIRVANA ASSISTANT SDK
+     Replace src with your CDN URL in production
+═══════════════════════════════════════════════ -->
+
+<script src="nirvana-assistant.js"></script>
+
+<script>
+  // ── Init SDK ──────────────────────────────────
+  NirvanaAssistant.init({
+    apiKey      : 'demo_key_replace_in_prod',
+    apiEndpoint : 'apiEndpoint: 'https://nirvana-assistant-api.vercel.app/api/assist',
+',          // Point to your server
+    position    : 'bottom-right',
+    primaryColor: '#4F46E5',
+    language    : 'hinglish',
+    businessType: 'local_services',
+    debug       : true,
+  });
+
+  // ── Progress Bar ──────────────────────────────
+  const FORM_FIELDS = ['fullName', 'phone', 'email', 'serviceDate', 'service', 'address'];
+  function updateProgress() {
+    const filled = FORM_FIELDS.filter(id => {
+      const el = document.getElementById(id);
+      return el && el.value.trim() !== '';
+    }).length;
+    const pct = Math.round((filled / FORM_FIELDS.length) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent  = pct + '% complete';
+    if (pct === 100 && typeof NirvanaAssistant !== 'undefined') {
+      NirvanaAssistant.celebrate();
+      NirvanaAssistant.sendMessage('🎉 Sab fields fill ho gaye! Ab submit kar sakte ho.');
+    }
+  }
+  FORM_FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateProgress);
+    if (el) el.addEventListener('change', updateProgress);
+  });
+
+  // ── Form Validation & Submit ──────────────────
+  const form = document.getElementById('booking-form');
+
+  function showError(id, show) {
+    const el  = document.getElementById(id);
+    const err = document.getElementById(id + '-err');
+    if (!el || !err) return;
+    if (show) {
+      el.classList.add('error');
+      err.classList.add('visible');
+    } else {
+      el.classList.remove('error');
+      err.classList.remove('visible');
+    }
+  }
+
+  // Live validation
+  ['fullName','phone','email','service','address'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('blur', () => validateField(id));
+    el.addEventListener('input', () => {
+      if (el.classList.contains('error')) validateField(id);
+    });
+  });
+
+  function validateField(id) {
+    const el = document.getElementById(id);
+    if (!el) return true;
+    const v = el.value.trim();
+    switch(id) {
+      case 'fullName': showError(id, v.length < 2); return v.length >= 2;
+      case 'phone'   : showError(id, !/^[6-9][0-9]{9}$/.test(v)); return /^[6-9][0-9]{9}$/.test(v);
+      case 'email'   : if (!v) { showError(id, false); return true; }
+                       showError(id, !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
+                       return !v || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      case 'service' : showError(id, !v); return !!v;
+      case 'address' : showError(id, v.length < 10); return v.length >= 10;
+    }
+    return true;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fields = ['fullName','phone','email','service','address'];
+    const valid  = fields.every(id => validateField(id));
+    if (!valid) {
+      NirvanaAssistant.sendMessage('⚠️ Kuch fields mein error hai. Highlighted fields check karo!');
+      return;
+    }
+    // Simulate submission
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Processing...';
+    setTimeout(() => {
+      form.style.display = 'none';
+      document.getElementById('success-box').style.display = 'block';
+      NirvanaAssistant.celebrate();
+      NirvanaAssistant.sendMessage('🎊 Booking ho gayi! Humari team 2 ghante mein call karegi. Thank you!');
+    }, 1800);
+  });
+</script>
+
+</body>
+</html>
